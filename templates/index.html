@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulut Depolama Kullanan Fotoğraf Galeri Sistemi</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="container-fluid">
+
+        
+
+        
+
+        <div class="d-flex align-items-center">
+
+            <div class="dropdown me-3">
+
+    <button id="profileDropdown"
+        class="btn btn-secondary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown">
+
+        Hoşgeldin, {{ current_user.username }}
+
+    </button>
+
+    <ul class="dropdown-menu">
+
+        <li>
+            <a class="dropdown-item"
+               href="/profile">
+
+               Profil
+
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item"
+               href="/logout">
+
+               Çıkış Yap
+
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+            <a href="/upload"
+               class="btn btn-primary me-2">
+               Fotoğraf Yükle
+            </a>
+
+            <a href="/trash"
+   class="btn btn-warning me-2">
+
+   🗑️ Çöp Kutusu
+
+</a>
+
+<a href="/favorites"
+   class="btn btn-danger me-2">
+
+   ❤️ Favoriler
+
+</a>
+
+            <button id="darkModeBtn"
+        class="btn btn-dark me-2">
+
+    🌙 Dark Mode
+
+</button>
+
+            <a href="/register"
+   class="btn btn-success me-2">
+   Kayıt Ol
+</a>
+
+            
+
+        </div>
+
+    </div>
+
+</nav>
+    <div class="container">
+        <span class="navbar-brand mb-0 h1">
+            📸 Bulut Fotoğraf Galerisi
+        </span>
+    </div>
+</nav>
+
+<div class="container mt-5">
+
+    <div class="text-center">
+        <h1>Bulut Depolama Kullanan Fotoğraf Galeri Sistemi</h1>
+
+        <p class="lead">
+            Anılarınızı güvenle saklayın,
+    favorilerinizi yönetin ve fotoğraflarınıza
+    her yerden kolayca erişin.
+
+        </p>
+
+        
+
+
+
+<hr>
+
+<h3>Yüklenen Fotoğraflar</h3>
+
+<form method="GET" action="/">
+    <input type="text"
+           name="q"
+           class="form-control mb-3"
+           placeholder="Fotoğraf ara...">
+           <select name="sort"
+        class="form-select mt-3">
+
+    <option value="new">
+        En Yeni Başta
+    </option>
+
+    <option value="old">
+        En Eski Başta
+    </option>
+
+</select>
+
+<button class="btn btn-dark mt-3">
+
+    Sırala
+
+</button>
+</form>
+
+<div class="row justify-content-center">
+{% for photo in photos %}
+
+<div class="col-md-4 mt-3">
+    <div class="card h-100">
+
+    <a href="{{ photo.image_url }}" target="_blank">
+    <img src="{{ photo.image_url }}"
+         class="card-img-top"
+         style="height:250px; object-fit:cover;">
+</a>
+
+    <div class="card-body text-center">
+
+    <h5 class="card-title">
+        {{ photo.title }}
+    </h5>
+
+    <p class="text-muted">
+
+    {{ photo.created_at.strftime("%d.%m.%Y - %H:%M") }}
+
+</p>
+
+    <a href="/edit/{{ photo.id }}"
+       class="btn btn-warning">
+       Düzenle
+    </a>
+
+    <a href="/delete/{{ photo.id }}"
+       class="btn btn-danger">
+       Sil
+
+       <a href="/favorite/{{ photo.id }}"
+   class="btn btn-outline-danger">
+
+   ❤️
+
+</a>
+
+       
+    </a>
+    </div>
+</div>
+</div>
+
+{% endfor %}
+
+</div>
+
+
+</a>
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+
+const darkModeBtn =
+document.getElementById("darkModeBtn");
+
+darkModeBtn.addEventListener("click", function() {
+
+    document.body.classList.toggle("bg-dark");
+
+    document.body.classList.toggle("text-white");
+
+    const cards =
+    document.querySelectorAll(".card");
+
+    cards.forEach(card => {
+
+        card.classList.toggle("bg-secondary");
+
+        card.classList.toggle("text-white");
+
+    });
+
+    const dropdownButton =
+document.getElementById("profileDropdown");
+
+    dropdownButton.classList.toggle("btn-light");
+
+    dropdownButton.classList.toggle("btn-secondary");
+
+});
+
+</script>
+
+</script>
+</body>
+</html>
