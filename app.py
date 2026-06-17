@@ -318,6 +318,35 @@ def favorites():
         "favorites.html",
         photos=photos
     )
+@app.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+
+    if request.method == "POST":
+
+        username = request.form["username"]
+
+        email = request.form["email"]
+
+        new_password = request.form["new_password"]
+
+        confirm_password = request.form["confirm_password"]
+
+        user = User.query.filter_by(
+            username=username,
+            email=email
+        ).first()
+
+        if user:
+
+            if new_password == confirm_password:
+
+                user.password = new_password
+
+                db.session.commit()
+
+                return redirect("/login")
+
+    return render_template("forgot_password.html")
 
 if __name__ == "__main__":
     with app.app_context():
